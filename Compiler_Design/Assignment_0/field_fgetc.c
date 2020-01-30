@@ -17,24 +17,24 @@ int main(int argc, char* argv[]){
     int count = 0;
     char ch, prev_c;
     while((ch = fgetc(file)) != EOF){
-	/*if(ch == '\n'){
+	if(ch == '\n'){
 	    printf("\n");
 	    count = 0;
-	}*/
-	if(ch == ' ' && prev_c != ' '){
+	}
+	if(ch == ' ' && prev_c != ' ' && prev_c != '\n'){
 	    count++;
 	}
 	if(count == field_number - 1){
 	    printf("%c", ch);
 	}
-	//prev_c = ch;
-	if(ch == '\n'){
+	prev_c = ch;
+	/*if(ch == '\n'){
 	    printf("\n");
 	    count = 0;
 	    prev_c = ' ';
 	}
 	else
-	    prev_c = ch;
+	    prev_c = ch;*/
     }
 
 }
