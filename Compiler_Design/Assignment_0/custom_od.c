@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 int main(int argc, const char* argv[]){
    if(argc < 2){
@@ -12,8 +13,20 @@ int main(int argc, const char* argv[]){
        char buffer;
        while(feof(file) == 0){
 	    fread(&buffer, sizeof(buffer), 1, file);
-	    printf("%c:%o\n", buffer, buffer);
-	    //sprintf(, "%o", buffer);
+	    //printf("%c:%o\n", buffer, buffer);
+	    //int temp = atoi(&buffer);
+	    if(buffer == '\0'){
+		printf("\\0:%o\n", buffer);
+	    }
+	    else if(isdigit(buffer) != 0){
+		printf("Num\n");
+	    }
+	    else{
+		printf("%c:%o\n", buffer, buffer);
+	    }
+	    /*if(isdigit(buffer) != 0){
+		printf("%d:%o\n", buffer, buffer);
+	    }*/
        }
        fclose(file);
    }
