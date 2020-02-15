@@ -10,7 +10,7 @@ int main(int argc, char* argv[]){
 	perror("File Error");
 	exit(1);
     }
-    int total_students = 1;
+    int total_students = 5;
     char name[21];
     int roll_number;
 
