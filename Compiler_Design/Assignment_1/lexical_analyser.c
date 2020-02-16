@@ -18,11 +18,11 @@ void lexical_analyser(){
 			tok_buffer[1] = ch;
 			tok_buffer[2] = '\0';
 			if(strcmp(tok_buffer, "==") == 0){
-				printf("<==;, TOK_ASSIGNMENT, %d>\n", TOK_ASSIGNMENT);
+				printf("<==;, TOK_COMPARISON, %d>\n", TOK_ASSIGNMENT);
 			}
 			else{
 				ungetc(ch, fsrc);
-				printf("<=;, TOK_EQUAL, %d>\n", TOK_EQUAL);
+				printf("<=;, TOK_ASSIGNMENT, %d>\n", TOK_ASSIGNMENT);
 			}
 		}
 		if(ch == '+') {
@@ -53,12 +53,18 @@ void lexical_analyser(){
 		if(ch == ']') {
 			printf("<], TOK_L_SQBKT, %d>\n", TOK_L_SQBKT);
 		}
+		if(ch == '{') {
+			printf("<{;, TOK_R_CURLY, %d>\n", TOK_R_CURLY);
+		}
+		if(ch == '}') {
+			printf("<}, TOK_L_CURLY, %d>\n", TOK_L_CURLY);
+		}
 		if(isalpha(ch)){
 			// For Identfiers and keywords
 			short i = 0;
 			char ch2;
 			tok_buffer[i] = ch;
-			while(isalnum((ch2 = fgetc(fsrc)))){
+			while(isalnum((ch2 = fgetc(fsrc))) || ch2 == '_'){
 				tok_buffer[++i] = ch2;
 			}
 			tok_buffer[++i] = '\0';
