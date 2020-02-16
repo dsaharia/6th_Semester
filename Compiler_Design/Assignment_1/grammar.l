@@ -8,8 +8,11 @@
 [\n \t] {continue;}
 "int" {printf("<TOK_INT, %d>\n", TOK_INT);}
 "if" {printf("<TOK_IF, %d>\n", TOK_IF);}
-"=" {printf("<TOK_EQUAL, %d>\n", TOK_EQUAL);}
+"=" {printf("<TOK_ASSIGNMENT, %d>\n", TOK_ASSIGNMENT);}
 "==" {printf("<TOK_COMPARISON, %d>\n", TOK_COMPARISON);}
+"+" {printf("<TOK_PLUS, %d>\n", TOK_PLUS);}
+"++" {printf("<TOK_INCREMENT, %d>\n", TOK_INCREMENT);}
+"+=" {printf("<TOK_ASSGN_INCR, %d>\n", TOK_ASSGN_INCR);}
 "else" {printf("<TOK_ELSE, %d>\n", TOK_ELSE);}
 "[" {printf("<TOK_R_SQBKT, %d>\n", TOK_R_SQBKT);}
 "]" {printf("<TOK_L_SQBKT, %d>\n", TOK_L_SQBKT);}
