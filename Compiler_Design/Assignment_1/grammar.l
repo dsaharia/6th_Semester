@@ -20,7 +20,7 @@
 ";" {printf("<TOK_SEMICOLON, %d>\n", TOK_SEMICOLON);}
 "return" {printf("<TOK_RETURN, %d>\n", TOK_RETURN);}
 [0-9]+ {printf("<%s, TOK_NUM, %d>\n", yytext, TOK_NUM);}
-[a-zA-Z][a-z_A-z_0-9]+ {printf("<%s, TOK_ID, %d>\n", yytext, TOK_ID);}
+[a-zA-Z][a-z_A-z_0-9]* {printf("<%s, TOK_ID, %d>\n", yytext, TOK_ID);}
 
 %%
 
