@@ -1,7 +1,7 @@
 #define TOK_INT 1
 #define TOK_IF 2
 #define TOK_ELSE 3
-#define TOK_EQUAL 4
+#define TOK_ASSIGNMENT 4
 #define TOK_SEMICOLON 5
 #define TOK_ID 6
 #define TOK_R_PAREN 7
@@ -9,7 +9,14 @@
 #define TOK_NUM 9
 #define TOK_R_SQBKT 10
 #define TOK_L_SQBKT 11
-#define TOK_ASSIGNMENT 12
+#define TOK_COMPARISON 12
 #define TOK_ASSGN_INCR 13
 #define TOK_INCREMENT 14
 #define TOK_PLUS 15
+#define TOK_R_CURLY 16
+#define TOK_L_CURLY 17
+#define TOK_RETURN 18
+#define TOK_CHAR 19
+#define TOK_FLOAT 20
+#define TOK_PERIOD 21
+
