@@ -16,19 +16,22 @@ code_table = {
         'TAC':'Y', 'TAT':'Y', 'TAA':'*', 'TAG':'*', 
         'TGC':'C', 'TGT':'C', 'TGA':'*', 'TGG':'W', 
     }
-# amino_acid_table = {
-#     'A': 'Alanine'
-# }
+
 AA_seq = []
+codon_seq = []
+
 def parse(line, gene_information):
+    line = line.strip()
     protein = ""
     for i in range(0, len(line), 3):
         protein += line[i:i+3]
         protein = protein.upper()
+        codon_seq.append(protein)
         acid = code_table.get(protein)
         if code_table.get(protein) == '*':
             AA_seq.append('*')
-            print(f"{gene_information} and {AA_seq}")
+            # print(f"{gene_information} and {AA_seq}")
+            write_output(gene_information, codon_seq = codon_seq, AA_seq = AA_seq)
             return
         else:
             AA_seq.append(acid)
@@ -37,17 +40,30 @@ def parse(line, gene_information):
 
 
 start_seq = 0
+sl_number = 0
+
+def write_output(gene_information, codon_seq='X', AA_seq='X', remarks='Success'):
+    global sl_number;
+    sl_number += 1
+    output_file = open('output.txt', 'a')
+    output_line = [sl_number, gene_information, codon_seq, AA_seq, remarks]
+    output_file.write(str(output_line))
+    output_file.write('\n')
+    output_file.close()
+
+
 def read_file(input_file):
     with open(input_file) as file:
         for line in file:
-            line = line.strip()
             if line[0] == '>':
-                gene_information = line[1:]
+                gene_information = line[1:].strip()
                 start_seq = 1
             elif start_seq == 1:
+                if line[0] == '\n':
+                    error_remark = "New Line Encountered after Information"
+                    write_output(gene_information, remarks=error_remark)
+                    break
                 parse(line, gene_information)
-        print()
-        #print(type(line))
 
 def main():
     # input_file1 = "data/Ecol_K12_MG1655_.ena"
