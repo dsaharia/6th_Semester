@@ -2,7 +2,7 @@ code_table = {
         'ATA':'I', 'ATC':'I', 'ATT':'I', 'ATG':'M', 
         'ACA':'T', 'ACC':'T', 'ACG':'T', 'ACT':'T', 
         'AAC':'N', 'AAT':'N', 'AAA':'K', 'AAG':'K', 
-        'AGC':'S', 'AGT':'S', 'AGA':'R', 'AGG':'R',                  
+        'AGC':'S', 'AGT':'S', 'AGA':'R', 'AGG':'R', 
         'CTA':'L', 'CTC':'L', 'CTG':'L', 'CTT':'L', 
         'CCA':'P', 'CCC':'P', 'CCG':'P', 'CCT':'P', 
         'CAC':'H', 'CAT':'H', 'CAA':'Q', 'CAG':'Q', 
@@ -19,8 +19,11 @@ code_table = {
 
 AA_seq = []
 codon_seq = []
+start_seq = 0
+sl_number = 0
 
 def parse(line, gene_information):
+    stop = 0
     line = line.strip()
     protein = ""
     for i in range(0, len(line), 3):
@@ -28,19 +31,29 @@ def parse(line, gene_information):
         protein = protein.upper()
         codon_seq.append(protein)
         acid = code_table.get(protein)
+        global start_seq
+
         if code_table.get(protein) == '*':
             AA_seq.append('*')
+            stop = 1
+            start_seq = 0
             # print(f"{gene_information} and {AA_seq}")
-            write_output(gene_information, codon_seq = codon_seq, AA_seq = AA_seq)
-            return
         else:
-            AA_seq.append(acid)
-
+            if stop == 1:
+                error_remark = "Middle Stop"
+                stop = 0
+                start_seq = 0
+                write_output(gene_information, remarks=error_remark)
+                AA_seq.clear()
+                codon_seq.clear()
+            elif stop != 1 and start_seq == 1:
+                AA_seq.append(acid)
         protein = ""
 
+        if stop == 1:
+            write_output(gene_information, codon_seq = codon_seq, AA_seq = AA_seq)
+            return
 
-start_seq = 0
-sl_number = 0
 
 def write_output(gene_information, codon_seq='X', AA_seq='X', remarks='Success'):
     global sl_number;
@@ -62,8 +75,9 @@ def read_file(input_file):
                 if line[0] == '\n':
                     error_remark = "New Line Encountered after Information"
                     write_output(gene_information, remarks=error_remark)
-                    break
-                parse(line, gene_information)
+                    start_seq = 0
+                else:
+                    parse(line, gene_information)
 
 def main():
     # input_file1 = "data/Ecol_K12_MG1655_.ena"
