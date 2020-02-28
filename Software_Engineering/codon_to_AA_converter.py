@@ -22,6 +22,11 @@ codon_seq = []
 start_seq = 0
 sl_number = 0
 #stop = 0
+
+def write_db(gene_information, codon_seq='X', AA_seq='X', remarks='Success'):
+    pass
+
+
 def parse(line, gene_information):
     stop_bit = 0
     line = line.strip()
