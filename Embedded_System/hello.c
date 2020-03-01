@@ -6,10 +6,10 @@ void main(void)
 {
     while(1)
     {
-         P2 = 0xFF; // Turn ON all LED's connected to Port1
-         // delay();
-         // P2 = 0x00; // Turn OFF all LED's connected to Port1
-         // delay();
+         P2 = 0x55; // Turn ON all LED's connected to Port1
+         delay();
+         P2 = 0xAA; // Turn OFF all LED's connected to Port1
+         delay();
     }
 }
  
