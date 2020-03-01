@@ -1,0 +1,26 @@
+         while     (        )    begin      end     >       ;     =     *      id    
+
+while    E        1        E        E        E      E      E      E      E      E
+
+(        E        E        =        E        E      0      E      E      0      0
+
+)        E        E        E        0        E      E      E      E      E      E
+
+begin    E        E        E        E        =      E      0      0      E      0
+
+end      E        E        E        E        E      E      E      E      E      E
+
+>        E        E        1        E        E      E      E      E      0      0
+
+;        E        E        E        E        1      E      0      0      E      0
+
+=        E        E        E        E        E      E      1      E      0      0
+
+*        E        E        1        E        E      1      1      E      1      0
+
+id       E        E        1        E        E      1      1      1      1      E
+
+0 => Yields precedence to
+1 => takes precedence over
+E => error condition
+= => equal precedence
