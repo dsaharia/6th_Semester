@@ -1,3 +1,5 @@
+import sqlite3
+
 code_table = { 
         'ATA':'I', 'ATC':'I', 'ATT':'I', 'ATG':'M', 
         'ACA':'T', 'ACC':'T', 'ACG':'T', 'ACT':'T', 
@@ -23,8 +25,12 @@ start_seq = 0
 sl_number = 0
 #stop = 0
 
-def write_db(gene_information, codon_seq='X', AA_seq='X', remarks='Success'):
-    pass
+def write_db(gene_information, codon_string, amino_string, codon_len, count_A, count_T, count_G, count_C):
+    connection = sqlite3.connect('gene_info.db')
+    cursor = connection.cursor()
+    cursor.execute("INSERT INTO Gene_Information (gene_information, codon_sequence, amino_acid_sequence, seq_length, count_a, count_t, count_g, count_c, remarks) VALUES (?,?,?,?,?,?,?,?,?)", (gene_information, codon_string, amino_string, codon_len, count_A, count_T, count_G, count_C, 'Success'))
+    connection.commit()
+    connection.close()
 
 
 def parse(line, gene_information):
@@ -59,9 +65,17 @@ def parse(line, gene_information):
     if stop_bit == 1:
         # count = ''
         codon_string = ''.join(codon_seq)
-        print(codon_string)
-        print(codon_string.count('A'))
+        # print(codon_string)
+        count_A = codon_string.count('A')
+        count_T = codon_string.count('T')
+        count_G = codon_string.count('G')
+        count_C = codon_string.count('C')
+        amino_string = ''.join(AA_seq)
+        codon_len = len(codon_string)
+        print(codon_len)
+        print(count_A, count_T, count_G, count_C)
         write_output(gene_information, codon_seq = codon_seq, AA_seq = AA_seq)
+        write_db(gene_information, codon_string, amino_string, codon_len, count_A, count_T, count_G, count_C)
         AA_seq.clear()
         codon_seq.clear()
             #stop = 0
