@@ -1,0 +1,18 @@
+A -> w (C) b S e
+C -> id > n
+S -> E;
+S -> E;S
+E -> id = id * n
+
+w => While
+b => Begin
+e => End
+s => Statement
+id => Identifier
+num => Numbers
+C => Conditions (Greater than comparison)
+E => Expression (Multiplication)
+
+In the calculation of Leading and Trailing set id and num are not considered, but
+id : a | b | ... | z
+num : 0 | 1 | 2 | ... | 9
