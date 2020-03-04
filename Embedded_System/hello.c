@@ -6,9 +6,9 @@ void main(void)
 {
     while(1)
     {
-         P2 = 0x55; // Turn ON all LED's connected to Port1
+         P2 = 0x04; // Turn ON all LED's connected to Port1
          delay();
-         P2 = 0xAA; // Turn OFF all LED's connected to Port1
+         P2 = 0x03; // Turn OFF all LED's connected to Port1
          delay();
     }
 }
