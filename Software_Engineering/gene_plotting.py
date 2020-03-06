@@ -6,19 +6,18 @@ matplotlib.style.use('fivethirtyeight')
 
 
 def percentage(count):
-    d = {}
-    s = sum(count.values())
-    for key, v in count.items():
-        pct = v * 100.0 / s
-        # print(f"Percentage: {key}, {pct}")
-        d[key] = pct
-    plt.bar(d.keys(), d.values())
-    print(d)
+    AA_percentage = {}
+    AA_total = sum(count.values())
+    for key, value in count.items():
+        percentage = value * 100.0 / AA_total
+        AA_percentage[key] = percentage
+    return AA_percentage
+    
 
 def AA_histogram(combined):
     count = Counter(combined)
-    print(count)
-    percentage(count)
+    AA_percentage = percentage(count)
+    plt.bar(AA_percentage.keys(), AA_percentage.values())
     plt.savefig('foo.png')
     plt.title('Amino Acid Frequency')
     plt.show()
