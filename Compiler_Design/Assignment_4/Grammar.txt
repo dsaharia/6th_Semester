@@ -1,0 +1,11 @@
+S -> w (C) b E e
+C -> id > n
+E -> id = id * n
+
+w => While
+b => Begin
+e => End
+id => Identifier
+n => Numbers
+C => Conditions (Greater than comparison)
+E => Expression (Multiplication)
