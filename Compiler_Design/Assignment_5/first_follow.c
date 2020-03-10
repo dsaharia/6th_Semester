@@ -17,7 +17,7 @@ typedef struct Productions{
 }Productions;
 
 Productions productions[4];
-
+char parsing_table[3][3][9];
 // char first_set[NO_RULES][NO_RULES];
 // char follow_set[NO_RULES][NO_RULES];
 
@@ -51,13 +51,7 @@ void create_grammar(){
 
 
 int is_terminal(char ch){
-    // if(!isupper(ch) || ch == '*' || ch == 'n'){
-    //     return 1;
-    // }
-    // else{
-    //     return 0;
-    // }
-    return (!isupper(ch) || ch == '*' || ch == 'n' || ch == '#' ? 1 : 0);
+    return (!isupper(ch) || ch == '*' || ch == 'n'? 1 : 0);
 }
 
 void find_first(){
@@ -99,21 +93,83 @@ int compare_productions(char current, char* str){
 }
 void follow_set(){
     unsigned int id_follow = 0, idx=0;
-    char current;
+    char current, inpo;
     productions[0].follow_set[id_follow] = '$';
     for (short i = 1; i < NO_RULES; ++i){
         current = productions[i].LHS;
         for (short j=0; j < NO_RULES ; ++j){
             if ((idx = compare_productions(current, productions[j].RHS))){
                 if (productions[j].RHS[idx+1] == '\0'){
-                    printf("-->%c", productions[i].LHS);
-                    productions[i].follow_set[id_follow++] = productions[0].follow_set[0];
+                    // printf("-->%c", productions[i].LHS);
+                    strcpy(productions[i].follow_set, productions[0].follow_set);
+                    // productions[i].follow_set[id_follow++] = productions[0].follow_set[0];
                 }
-                else {
-                    
+                else if (productions[j].RHS[idx+1] != '|') {
+                    inpo =  productions[j].LHS;
+                    for(short k =0;k<NO_RULES;k++){
+                        if(productions[k].LHS == inpo){
+                            if(check_epsilon(productions[k].first_set)){
+                                productions[i].follow_set[id_follow++] = productions[k].first_set[0];
+                                // printf("-->%c\n", productions[0].first_set[0]);
+                                productions[i].follow_set[id_follow++] = productions[0].follow_set[0];
+
+                            }
+                            // printf("%s\n", productions[k].first_set);
+                        }
+                    }
                 }
             }
         }
+    }
+}
+
+void create_table(){
+    char temp[8];
+    for (short i=0; i < 3; i++){
+        if (!check_epsilon(productions[i].first_set)){
+            if(productions[i].first_set[0] == 'n'){
+                parsing_table[i][0][0] = productions[i].LHS;
+                strcat(parsing_table[i][0],"->");
+                strcat(parsing_table[i][0],productions[i].RHS);
+            }
+        }
+        else{
+            if(productions[i].first_set[0] == '*'){
+                parsing_table[i][1][0] = productions[i].LHS;
+                strcat(parsing_table[i][1],"->");
+                strcpy(temp,productions[i].RHS);
+                temp[strlen(temp) - 2] = '\0';
+                strcat(parsing_table[i][1],temp);
+            }
+            if(productions[i].follow_set[0] == '$'){
+                parsing_table[i][2][0] = productions[i].LHS;
+                strcat(parsing_table[i][2],"->#");  
+            }
+        }
+    }
+}
+void print_table(){
+    printf("++++++++++ LL(1) PARSING TABLE++++++++++\n\n");
+    printf("\tn\t");
+    printf("\t*\t");
+    printf("\t$\t");
+    printf("\n-----------------------------------------------\n");
+    printf("\n");
+    for(int row = 0;row< 3;row++){
+        if(row == 0){
+            printf("S\t");
+        }
+        else if(row == 1){
+            printf("E\t");
+        }
+        else{
+            printf("N\t");
+        }
+        for(int column = 0;column < 3;column ++){
+            printf("%s\t\t",parsing_table[row][column]);
+        }
+        printf("\n\n-----------------------------------------------\n");
+        printf("\n\n");
     }
 }
 void print_sets(){
@@ -121,10 +177,12 @@ void print_sets(){
     for (int j = 0; j < NO_RULES; ++j){
         printf("%c { %s }\n", productions[j].LHS, productions[j].first_set);
     }
+    printf("\n");
     printf("----Follow Sets----\n");
     for (int j = 0; j < NO_RULES; ++j){
         printf("%c { %s }\n", productions[j].LHS, productions[j].follow_set);
     }
+    printf("\n");
 }
 int main(int argc, char const *argv[]){
     create_grammar();
@@ -132,5 +190,7 @@ int main(int argc, char const *argv[]){
     find_first();
     follow_set();
     print_sets();
+    create_table();
+    print_table();
     return 0;
 }
