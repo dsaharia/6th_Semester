@@ -14,7 +14,7 @@ void print_stack(void);
 void pop(void);
 
 // ----- Global variable Section -----
-char input_str[] = "n+n$";
+char input_str[] = "n*n*n$"; // enter the input string. Only supports * operator
 int parsing_table[3][3] = {
         // n   *   $
     /*S*/ {0, -1, -1},
@@ -26,9 +26,9 @@ char stack[10], state;
 int top = 1, count=0, flag = 0;
 
 void create_grammar(){
-    // This function inserts the production rules for the while construct
+    // This function inserts the production rules
     productions[0].LHS = 'S';
-    strcpy(productions[0].RHS, "NE"); // w - While, b - Begin, e - End
+    strcpy(productions[0].RHS, "NE"); 
 
     productions[1].LHS = 'E';
     strcpy(productions[1].RHS, "*NE");
@@ -88,7 +88,7 @@ int give_number(char target){
 void action(){
     int non_terminal = give_number(stack[top-1]);
     int terminal = give_number(input_str[count]);
-    printf("%d %d\n", non_terminal, terminal);
+    // printf("%d %d\n", non_terminal, terminal);
     if(terminal == -1){
         flag = 1;
         return;
@@ -98,7 +98,7 @@ void action(){
         return;
     }
     int tab_data = parsing_table[non_terminal][terminal];
-    printf("-->%d\n", tab_data);
+    // printf("-->%d\n", tab_data);
     if(tab_data == 0){
         pop();
         push('E');
@@ -128,7 +128,7 @@ void LL1_parser(){
     push('S');
     while(stack[top-1] != '$'){
         if(flag){
-            return;
+            break;
         }
         if(match_top(input_str[count])){
             
@@ -141,7 +141,7 @@ void LL1_parser(){
             // break;
         }
     }
-    if(input_str[count] == '$' && stack[top-1]){
+    if(input_str[count] == '$' && stack[top-1] == '$'){
         printf("String Accepted\n");
     }
     else{
@@ -162,6 +162,52 @@ void print_stack(){
 int main() {
     stack[0] = '$';
     create_grammar();
+    printf("\n---- Input Grammar ----\n\n");
+    // printing the grammar
+    for(int i=0;i < NO_RULES; i++){
+        printf("%c -> %s\n", productions[i].LHS, productions[i].RHS);
+    }
+    printf("\n----LL(1) Parsing Table----\n\n");
+    printf("\tn\t");
+    printf("\t*\t");
+    printf("\t$\t");
+    printf("\n-----------------------------------------------\n");
+    printf("\n");
+    for(int row = 0;row< 3;row++){
+        if(row == 0){
+            printf("S\t");
+        }
+        else if(row == 1){
+            printf("E\t");
+        }
+        else{
+            printf("N\t");
+        }
+        for(int column = 0;column < 3;column ++){
+            int tab_value = parsing_table[row][column];
+            if(tab_value == 0){
+                printf("%c->%s\t\t", productions[tab_value].LHS, productions[tab_value].RHS);
+            }
+            else if(tab_value == 1){
+                printf("%c->%s\t\t", productions[tab_value].LHS, productions[tab_value].RHS);
+            }
+            else if(tab_value == 2){
+                printf("%c->%s\t\t", productions[tab_value].LHS, productions[tab_value].RHS);
+            }
+            else if(tab_value == 3){
+                printf("%c->%s\t\t", productions[tab_value].LHS, productions[tab_value].RHS);
+            }
+            else{
+                printf("x\t\t");
+            }
+            
+        }
+        printf("\n\n-----------------------------------------------\n");
+        printf("\n\n");
+    }
+    printf("Input String is: %s\n\n", input_str);
+    printf("NOTE: # refers to Epsilon\n");
+    printf("\n----Stack Contents----\n\n");
     LL1_parser();
 
 }
