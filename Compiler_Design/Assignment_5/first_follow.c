@@ -37,9 +37,8 @@ int check_epsilon(char* str){
     return 0;
 }
 void create_grammar(){
-    // This function inserts the production rules for the while construct
     productions[0].LHS = 'S';
-    strcpy(productions[0].RHS, "NE"); // w - While, b - Begin, e - End
+    strcpy(productions[0].RHS, "NE"); 
 
     productions[1].LHS = 'E';
     strcpy(productions[1].RHS, "*NE|#");
@@ -93,7 +92,7 @@ int compare_productions(char current, char* str){
 }
 void follow_set(){
     unsigned int id_follow = 0, idx=0;
-    char current, inpo;
+    char current, temp;
     productions[0].follow_set[id_follow] = '$';
     for (short i = 1; i < NO_RULES; ++i){
         current = productions[i].LHS;
@@ -105,9 +104,9 @@ void follow_set(){
                     // productions[i].follow_set[id_follow++] = productions[0].follow_set[0];
                 }
                 else if (productions[j].RHS[idx+1] != '|') {
-                    inpo =  productions[j].LHS;
+                    temp =  productions[j].LHS;
                     for(short k =0;k<NO_RULES;k++){
-                        if(productions[k].LHS == inpo){
+                        if(productions[k].LHS == temp){
                             if(check_epsilon(productions[k].first_set)){
                                 productions[i].follow_set[id_follow++] = productions[k].first_set[0];
                                 // printf("-->%c\n", productions[0].first_set[0]);
@@ -173,12 +172,12 @@ void print_table(){
     }
 }
 void print_sets(){
-    printf("----First Sets----\n");
+    printf("\n----First Sets----\n\n");
     for (int j = 0; j < NO_RULES; ++j){
         printf("%c { %s }\n", productions[j].LHS, productions[j].first_set);
     }
     printf("\n");
-    printf("----Follow Sets----\n");
+    printf("----Follow Sets----\n\n");
     for (int j = 0; j < NO_RULES; ++j){
         printf("%c { %s }\n", productions[j].LHS, productions[j].follow_set);
     }
@@ -187,6 +186,7 @@ void print_sets(){
 int main(int argc, char const *argv[]){
     create_grammar();
     print_grammar();
+    printf("\nNOTE: Here # refers to Epsilon\n");
     find_first();
     follow_set();
     print_sets();
