@@ -10,12 +10,12 @@ ID [a-z][a-z0-9]*
 
 %%
 "while" {return TOK_WHILE;}
-{ID}    {return TOK_ID; }
+{ID}    {yylval.id_val.id = strdup(yytext); yylval.id_val.val = 12; return TOK_ID; }
 "("     {return TOK_L_PAREN;} 
-"="     {return TOK_ASSIGNMENT;}
+"="     {yylval.op = strdup(yytext); return TOK_ASSIGNMENT;}
 ")"     {return TOK_R_PAREN;}
 ">"     {return TOK_GREATER;}
-"+"     {return TOK_PLUS;}
+"+"     {yylval.op = strdup(yytext); return TOK_PLUS;}
 "{"     {return TOK_L_CURLY;}
 "}"     {return TOK_R_CURLY;}
 ";"     {return TOK_SEMICOLON;}
