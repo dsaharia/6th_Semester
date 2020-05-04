@@ -741,7 +741,7 @@ YY_RULE_SETUP
 case 2:
 YY_RULE_SETUP
 #line 13 "scanner.l"
-{return TOK_ID; }
+{yylval.id_val.id = strdup(yytext); yylval.id_val.val = 12; return TOK_ID; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
@@ -751,7 +751,7 @@ YY_RULE_SETUP
 case 4:
 YY_RULE_SETUP
 #line 15 "scanner.l"
-{return TOK_ASSIGNMENT;}
+{yylval.op = strdup(yytext); return TOK_ASSIGNMENT;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
@@ -766,7 +766,7 @@ YY_RULE_SETUP
 case 7:
 YY_RULE_SETUP
 #line 18 "scanner.l"
-{return TOK_PLUS;}
+{yylval.op = strdup(yytext); return TOK_PLUS;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
