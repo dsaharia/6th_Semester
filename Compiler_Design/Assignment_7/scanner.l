@@ -10,8 +10,9 @@ ID [a-z][a-z0-9]*
 
 %%
 "while" {return TOK_WHILE;}
-{ID}    {yylval.id_val.id = strdup(yytext); yylval.id_val.val = 12; return TOK_ID; }
+{ID}    {yylval.id_val.id = strdup(yytext); return TOK_ID; }
 "("     {return TOK_L_PAREN;} 
+{DIGIT} { yylval.id_val.val = strdup(yytext); return TOK_NUM; }
 "="     {yylval.op = strdup(yytext); return TOK_ASSIGNMENT;}
 ")"     {return TOK_R_PAREN;}
 ">"     {return TOK_GREATER;}
@@ -28,4 +29,3 @@ ID [a-z][a-z0-9]*
 //	printf("TOK %d\n", token);
 //    }
 //}
-//{DIGIT} { yylval = atoi(yytext); return TOK_NUM; }
