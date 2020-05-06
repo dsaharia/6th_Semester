@@ -42,8 +42,8 @@ void newLabel(){
 %%
 
 S : TOK_WHILE TOK_L_PAREN C TOK_R_PAREN TOK_L_CURLY X TOK_R_CURLY { 
-                                                                    char temp_code[100];
-								    sprintf(temp_code, "\nBEGIN: %s\n%s: %s\n GOTO: BEGIN\n%s:",
+                                                                    char temp_code[150];
+								    sprintf(temp_code, "\nBEGIN: %s\n%s: %s\n GOTO: BEGIN\n%s:\n",
 								    $3.code, $3.True, $6.code, $3.False);
                                                                     printf("%s\n", temp_code); exit(0);}
   ;
@@ -61,11 +61,11 @@ C : E TOK_GREATER E  {
   ;
 
 X : TOK_ID TOK_ASSIGNMENT E TOK_SEMICOLON {
-                                            char temp_code[100];
+                                            char temp_code[150];
                                             sprintf(temp_code, "%s \n %s = %s", $3.code, $1.id, $3.addr);
 					    $$.code = temp_code;
 					    line++;
-                                            //printf("\n-->%s", $$.code);
+                                            printf("\n-->%s", $$.code);
 					    }
   ;
 
@@ -77,7 +77,7 @@ E : E TOK_PLUS E {
                    $$.code = temp_code; 
 		   //line++;
 		   //printf("len: %d\n", strlen(temp_code));
-		   //printf("-> %s\n", temp_code);}
+	//	   printf("-> %s\n", temp_code);}
 		   }
   | TOK_ID  {$$.addr = $1.id; $$.code = "";}
   | TOK_NUM {$$.addr = $1.val; $$.code = "";}
