@@ -1358,8 +1358,8 @@ yyreduce:
         case 2:
 #line 44 "grammar.y"
     { 
-                                                                    char temp_code[100];
-								    sprintf(temp_code, "\nBEGIN: %s\n%s: %s\n GOTO: BEGIN\n%s:",
+                                                                    char temp_code[150];
+								    sprintf(temp_code, "\nBEGIN: %s\n%s: %s\n GOTO: BEGIN\n%s:\n",
 								    (yyvsp[(3) - (7)].id_val).code, (yyvsp[(3) - (7)].id_val).True, (yyvsp[(6) - (7)].id_val).code, (yyvsp[(3) - (7)].id_val).False);
                                                                     printf("%s\n", temp_code); exit(0);;}
     break;
@@ -1380,11 +1380,11 @@ yyreduce:
   case 4:
 #line 63 "grammar.y"
     {
-                                            char temp_code[100];
+                                            char temp_code[150];
                                             sprintf(temp_code, "%s \n %s = %s", (yyvsp[(3) - (4)].id_val).code, (yyvsp[(1) - (4)].id_val).id, (yyvsp[(3) - (4)].id_val).addr);
 					    (yyval.id_val).code = temp_code;
 					    line++;
-                                            //printf("\n-->%s", $$.code);
+                                            printf("\n-->%s", (yyval.id_val).code);
 					    ;}
     break;
 
@@ -1398,7 +1398,7 @@ yyreduce:
                    (yyval.id_val).code = temp_code; 
 		   //line++;
 		   //printf("len: %d\n", strlen(temp_code));
-		   //printf("-> %s\n", temp_code);}
+	//	   printf("-> %s\n", temp_code);}
 		   ;}
     break;
 
