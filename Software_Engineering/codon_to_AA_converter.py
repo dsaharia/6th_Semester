@@ -1,5 +1,6 @@
 import sqlite3
 from gene_plotting import AA_histogram
+from gene_skewness import fragment
 
 combined_aa_string = ""
 code_table = { 
@@ -78,8 +79,10 @@ def parse(line, gene_information):
         codon_len = len(codon_string)
         # print(codon_len)
         # print(count_A, count_T, count_G, count_C)
-        # write_output(gene_information, codon_seq = codon_seq, AA_seq = AA_seq)
+        write_output(gene_information, codon_seq = codon_seq, AA_seq = AA_seq)
         # write_db(gene_information, codon_string, amino_string, codon_len, count_A, count_T, count_G, count_C)
+        print(codon_string)
+        #fragment(codon_string)
         AA_seq.clear()
         codon_seq.clear()
             #stop = 0
@@ -117,9 +120,9 @@ def read_file(input_file):
                     parse(line, gene_information)
         start_seq = 0
 def main():
-    input_file1 = "data/Ecol_K12_MG1655_.ena"
+    # input_file1 = "data/Ecol_K12_MG1655_.ena"
     # input_file1 = "data/test.ena"
-    input_file2 = "data/Ecol_K12_MG1655_.wgs"
+    input_file1 = "data/Ecol_K12_MG1655_.wgs"
     read_file(input_file1)
     AA_histogram(combined_aa_string)
 
