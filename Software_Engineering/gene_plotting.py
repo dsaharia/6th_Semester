@@ -18,8 +18,10 @@ def AA_histogram(combined):
     count = Counter(combined)
     AA_percentage = percentage(count)
     plt.bar(AA_percentage.keys(), AA_percentage.values())
-    plt.savefig('foo.png')
-    plt.title('Amino Acid Frequency')
+    plt.title('Amino Acid Percentage')
+    plt.xlabel('Amino Acids')
+    plt.ylabel('Percentage')
+    plt.savefig('percentage.png', bbox_inches = "tight")
     plt.show()
 
 if __name__ == '__main__':
