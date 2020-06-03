@@ -29,7 +29,7 @@ def read_file(input_file):
             else:
                 parse(line, gene_information)
         # print(list(filter(None, test_list)))
-        AA_histogram(list(filter(None, AA_seq)))
+        #AA_histogram(list(filter(None, AA_seq)))
         codon_string = ''.join(codon_seq)
         fragment(codon_string)
 def main():
