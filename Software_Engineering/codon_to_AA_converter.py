@@ -1,6 +1,5 @@
 import sqlite3
 from gene_plotting import AA_histogram
-from gene_skewness import fragment
 
 combined_aa_string = ""
 code_table = { 
@@ -50,14 +49,11 @@ def parse(line, gene_information):
         if acid == '*':
             AA_seq.append('*')
             stop_bit = 1
-            #start_seq = 0
-            # print(f"{gene_information} and {AA_seq}")
         else:
             if stop_bit == 1:
                 error_remark = "Middle Stop"
                 stop_bit = 0
                 start_seq = 0
-                write_output(gene_information, remarks=error_remark)
                 AA_seq.clear()
                 codon_seq.clear()
                 return
@@ -67,7 +63,6 @@ def parse(line, gene_information):
 
     if stop_bit == 1:
         global combined_aa_string
-        # count = ''
         codon_string = ''.join(codon_seq)
         # print(codon_string)
         count_A = codon_string.count('A')
@@ -77,27 +72,11 @@ def parse(line, gene_information):
         amino_string = ''.join(AA_seq)
         combined_aa_string += amino_string
         codon_len = len(codon_string)
-        # print(codon_len)
-        # print(count_A, count_T, count_G, count_C)
-        write_output(gene_information, codon_seq = codon_seq, AA_seq = AA_seq)
-        # write_db(gene_information, codon_string, amino_string, codon_len, count_A, count_T, count_G, count_C)
+        write_db(gene_information, codon_string, amino_string, codon_len, count_A, count_T, count_G, count_C)
         print(codon_string)
-        #fragment(codon_string)
         AA_seq.clear()
         codon_seq.clear()
-            #stop = 0
         return
-
-
-def write_output(gene_information, codon_seq='X', AA_seq='X', remarks='Success'):
-    global sl_number;
-    sl_number += 1
-    output_file = open('output.txt', 'a')
-    output_line = [sl_number, gene_information, codon_seq, AA_seq, remarks]
-    output_file.write(str(output_line))
-    output_file.write('\n')
-    output_file.close()
-
 
 def read_file(input_file):
     with open(input_file) as file:
@@ -114,16 +93,14 @@ def read_file(input_file):
             elif start_seq == 1:
                 if line[0] == '\n':
                     error_remark = "New Line Encountered after Information"
-                    write_output(gene_information, remarks=error_remark)
+                    #write_output(gene_information, remarks=error_remark)
                     start_seq = 0
                 elif line[0] != '\n':
                     parse(line, gene_information)
         start_seq = 0
 def main():
-    # input_file1 = "data/Ecol_K12_MG1655_.ena"
-    # input_file1 = "data/test.ena"
-    input_file1 = "data/Ecol_K12_MG1655_.wgs"
-    read_file(input_file1)
+    input_file = "data/Ecol_K12_MG1655_.ena"
+    read_file(input_file)
     AA_histogram(combined_aa_string)
 
 
